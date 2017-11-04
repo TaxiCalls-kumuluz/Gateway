@@ -5,7 +5,8 @@
  */
 package com.taxicalls.gateway.services;
 
-import com.taxicalls.gateway.model.Trip;
+import com.taxicalls.gateway.model.Driver;
+import com.taxicalls.gateway.resources.AvailableDriversRequest;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.utils.ServiceRegistry;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,11 +29,19 @@ public class TripService {
     public TripService() {
     }
 
-    public Response getAvailableDrivers(Trip trip) {
+    public Response post(Object object, String path) {
         return ClientBuilder.newClient()
                 .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("drivers").path("available")
+                .path(path)
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(trip, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(object, MediaType.APPLICATION_JSON), Response.class);
+    }
+
+    public Response getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
+        return post(availableDriversRequest, "drivers/available");
+    }
+
+    public Response updateDriver(Driver driver) {
+        return post(driver, "update");
     }
 }

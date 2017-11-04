@@ -29,20 +29,20 @@ public class DriverService {
     public DriverService() {
     }
 
-    public Response authenticateDriver(Driver driver) {
+    private Response post(Object object, String path) {
         return ClientBuilder.newClient()
                 .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("authenticate")
+                .path(path)
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(driver, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(object, MediaType.APPLICATION_JSON), Response.class);
+    }
+
+    public Response authenticateDriver(Driver driver) {
+        return post(driver, "authenticate");
     }
 
     public Response acceptTrip(Trip trip) {
-        return ClientBuilder.newClient()
-                .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("trips")
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(trip, MediaType.APPLICATION_JSON), Response.class);
+        return post(trip, "trips");
     }
 
 }

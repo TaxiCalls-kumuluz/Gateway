@@ -5,8 +5,9 @@
  */
 package com.taxicalls.gateway.services;
 
-import com.taxicalls.gateway.model.Driver;
 import com.taxicalls.gateway.model.Passenger;
+import com.taxicalls.gateway.model.Trip;
+import com.taxicalls.gateway.resources.ChooseDriverRequest;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.utils.ServiceRegistry;
 import javax.enterprise.context.ApplicationScoped;
@@ -29,28 +30,24 @@ public class PassengerService {
     public PassengerService() {
     }
 
+    private Response post(Object object, String path) {
+        return ClientBuilder.newClient()
+                .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
+                .path(path)
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(object, MediaType.APPLICATION_JSON), Response.class);
+    }
+
     public Response authenticatePassenger(Passenger passenger) {
-        return ClientBuilder.newClient()
-                .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("authenticate")
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(passenger, MediaType.APPLICATION_JSON), Response.class);
+        return post(passenger, "authenticate");
     }
 
-    public Response getAvailableDrivers() {
-        return ClientBuilder.newClient()
-                .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("trips").path("drivers").path("available")
-                .request(MediaType.APPLICATION_JSON)
-                .get(Response.class);
+    public Response getAvailableDrivers(Trip trip) {
+        return post(trip, "trips/drivers/available");
     }
 
-    public Response chooseDriver(Driver driver) {
-        return ClientBuilder.newClient()
-                .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("trips").path("drivers").path("choose")
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(driver, MediaType.APPLICATION_JSON), Response.class);
+    public Response chooseDriver(ChooseDriverRequest chooseDriverRequest) {
+        return post(chooseDriverRequest, "trips/drivers/choose");
     }
 
 }

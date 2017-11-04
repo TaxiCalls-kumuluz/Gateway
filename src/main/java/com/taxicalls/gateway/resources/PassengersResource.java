@@ -1,8 +1,10 @@
 package com.taxicalls.gateway.resources;
 
-import com.taxicalls.gateway.model.Driver;
 import com.taxicalls.gateway.model.Passenger;
+import com.taxicalls.gateway.model.Trip;
+import com.taxicalls.gateway.services.NotificationService;
 import com.taxicalls.gateway.services.PassengerService;
+import com.taxicalls.gateway.services.TripService;
 import com.taxicalls.protocol.Response;
 
 import java.util.logging.Level;
@@ -27,6 +29,12 @@ public class PassengersResource {
     @Inject
     private PassengerService passengerService;
 
+    @Inject
+    private TripService tripService;
+
+    @Inject
+    private NotificationService notificationService;
+
     @POST
     @Path("/authenticate")
     public Response authenticatePassenger(Passenger passenger) {
@@ -35,16 +43,29 @@ public class PassengersResource {
 
     @POST
     @Path("/trips/drivers/available")
-    public Response getAvailableDrivers() {
+    public Response getAvailableDrivers(Trip trip) {
         LOGGER.log(Level.INFO, "getAvailableDrivers() invoked");
-        return passengerService.getAvailableDrivers();
+        AvailableDriversRequest availableDriversRequest = new AvailableDriversRequest();
+        availableDriversRequest.setCoordinate(trip.getAddressFrom().getCoordinate());
+        availableDriversRequest.setRatio(5);
+        return tripService.getAvailableDrivers(availableDriversRequest);
     }
 
     @POST
     @Path("/trips/drivers/choose")
-    public Response chooseDriver(Driver driver) {
+    public Response chooseDriver(ChooseDriverRequest chooseDriverRequest) {
         LOGGER.log(Level.INFO, "chooseDriver() invoked");
-        return passengerService.chooseDriver(driver);
+        return passengerService.chooseDriver(chooseDriverRequest);
+    }
+
+    @POST
+    @Path("/notifications/check")
+    public Response checkNotifications(Passenger passenger) {
+        LOGGER.log(Level.INFO, "checkNotifications() invoked");
+        CheckNotificationsRequest checkNotificationsRequest = new CheckNotificationsRequest();
+        checkNotificationsRequest.setEntity(passenger.getClass().getSimpleName());
+        checkNotificationsRequest.setId(passenger.getId());
+        return notificationService.checkNotification(checkNotificationsRequest);
     }
 
 }

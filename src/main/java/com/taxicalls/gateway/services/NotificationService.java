@@ -5,15 +5,13 @@
  */
 package com.taxicalls.gateway.services;
 
-import com.taxicalls.gateway.model.Driver;
+import com.taxicalls.gateway.resources.CheckNotificationsRequest;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.utils.ServiceRegistry;
-import java.util.Collection;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -30,12 +28,12 @@ public class NotificationService {
     public NotificationService() {
     }
 
-    public Response chooseDriver(Driver driver) {
+    public Response checkNotification(CheckNotificationsRequest checkNotificationsRequest) {
         return ClientBuilder.newClient()
                 .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("notifications")
+                .path("checks")
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(driver, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(checkNotificationsRequest, MediaType.APPLICATION_JSON), Response.class);
     }
 
 }
