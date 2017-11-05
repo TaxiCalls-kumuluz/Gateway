@@ -6,6 +6,7 @@
 package com.taxicalls.gateway.services;
 
 import com.taxicalls.gateway.model.Driver;
+import com.taxicalls.gateway.model.Trip;
 import com.taxicalls.gateway.resources.AvailableDriversRequest;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.utils.ServiceRegistry;
@@ -42,6 +43,10 @@ public class TripService {
     }
 
     public Response updateDriver(Driver driver) {
-        return post(driver, "update");
+        return post(driver, "drivers/update");
+    }
+
+    public Response updateTrip(Trip trip) {
+        return post(trip, "trips/update");
     }
 }

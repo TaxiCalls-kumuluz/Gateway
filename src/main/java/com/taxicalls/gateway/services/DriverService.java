@@ -45,4 +45,8 @@ public class DriverService {
         return post(trip, "trips");
     }
 
+    public Response createDriver(Driver driver) {
+        return post(driver, "drivers");
+    }
+
 }

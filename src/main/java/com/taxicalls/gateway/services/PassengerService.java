@@ -50,4 +50,8 @@ public class PassengerService {
         return post(chooseDriverRequest, "trips/drivers/choose");
     }
 
+    public Response createPassenger(Passenger passenger) {
+        return post(passenger, "passengers");
+    }
+
 }

@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.taxicalls.protocol;
+package com.taxicalls.gateway.model;
+
+import java.io.Serializable;
 
 /**
  *
  * @author romulo
  */
-public enum Status {
-    SUCCESSFUL, NOT_FOUND, ERROR;
+public enum Progress implements Serializable {
+    MOVING_TO, IN_PROGRESS, CONCLUDED;
 }

@@ -6,6 +6,7 @@ import com.taxicalls.gateway.services.DriverService;
 import com.taxicalls.gateway.services.NotificationService;
 import com.taxicalls.gateway.services.TripService;
 import com.taxicalls.protocol.Response;
+import com.taxicalls.protocol.Status;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,14 +39,25 @@ public class DriversResource {
     @Path("/authenticate")
     public Response authenticateDriver(Driver driver) {
         LOGGER.log(Level.INFO, "authenticateDriver() invoked");
-        return driverService.authenticateDriver(driver);
+        Response response = driverService.authenticateDriver(driver);
+        if (response.getStatus().equals(Status.NOT_FOUND)) {
+            return driverService.createDriver(driver);
+        }
+        return response;
     }
 
     @POST
-    @Path("/trips")
+    @Path("/trips/accept")
     public Response acceptTrip(Trip trip) {
         LOGGER.log(Level.INFO, "acceptTrip() invoked");
         return driverService.acceptTrip(trip);
+    }
+    
+    @POST
+    @Path("/trips/update")
+    public Response updateTrip(Trip trip) {
+        LOGGER.log(Level.INFO, "updateTrip() invoked");
+        return tripService.updateTrip(trip);
     }
 
     @POST

@@ -19,6 +19,7 @@ public class Trip implements Serializable {
     private Address addressFrom;
     private Address addressTo;
     private Set<Passenger> passengers;
+    private Progress progress;
 
     protected Trip() {
     }

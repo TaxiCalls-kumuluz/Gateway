@@ -6,6 +6,7 @@ import com.taxicalls.gateway.services.NotificationService;
 import com.taxicalls.gateway.services.PassengerService;
 import com.taxicalls.gateway.services.TripService;
 import com.taxicalls.protocol.Response;
+import com.taxicalls.protocol.Status;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,11 @@ public class PassengersResource {
     @POST
     @Path("/authenticate")
     public Response authenticatePassenger(Passenger passenger) {
-        return passengerService.authenticatePassenger(passenger);
+        Response response = passengerService.authenticatePassenger(passenger);
+        if (response.getStatus().equals(Status.NOT_FOUND)) {
+            return passengerService.createPassenger(passenger);
+        }
+        return response;
     }
 
     @POST
