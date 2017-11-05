@@ -62,6 +62,6 @@ public class DriversResource {
         CheckNotificationsRequest checkNotificationsRequest = new CheckNotificationsRequest();
         checkNotificationsRequest.setEntity(driver.getClass().getSimpleName());
         checkNotificationsRequest.setId(driver.getId());
-        return notificationService.checkNotification(checkNotificationsRequest);
+        return notificationService.checkNotifications(checkNotificationsRequest);
     }
 }

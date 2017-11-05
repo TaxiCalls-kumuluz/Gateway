@@ -28,7 +28,7 @@ public class NotificationService {
     public NotificationService() {
     }
 
-    public Response checkNotification(CheckNotificationsRequest checkNotificationsRequest) {
+    public Response checkNotifications(CheckNotificationsRequest checkNotificationsRequest) {
         return ClientBuilder.newClient()
                 .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
                 .path("checks")

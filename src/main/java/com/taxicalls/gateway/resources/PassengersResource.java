@@ -65,7 +65,7 @@ public class PassengersResource {
         CheckNotificationsRequest checkNotificationsRequest = new CheckNotificationsRequest();
         checkNotificationsRequest.setEntity(passenger.getClass().getSimpleName());
         checkNotificationsRequest.setId(passenger.getId());
-        return notificationService.checkNotification(checkNotificationsRequest);
+        return notificationService.checkNotifications(checkNotificationsRequest);
     }
 
 }
