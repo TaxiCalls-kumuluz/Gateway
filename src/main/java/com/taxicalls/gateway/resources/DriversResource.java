@@ -52,7 +52,7 @@ public class DriversResource {
         LOGGER.log(Level.INFO, "acceptTrip() invoked");
         return driverService.acceptTrip(trip);
     }
-    
+
     @POST
     @Path("/trips/update")
     public Response updateTrip(Trip trip) {
@@ -75,5 +75,12 @@ public class DriversResource {
         checkNotificationsRequest.setEntity(driver.getClass().getSimpleName());
         checkNotificationsRequest.setId(driver.getId());
         return notificationService.checkNotifications(checkNotificationsRequest);
+    }
+
+    @POST
+    @Path("/billings/account/update")
+    public Response updateAccount(Driver driver) {
+        LOGGER.log(Level.INFO, "updateAccount() invoked");
+        return Response.successful();
     }
 }

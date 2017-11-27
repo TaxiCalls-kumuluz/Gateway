@@ -41,6 +41,10 @@ public class TripService {
     public Response getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
         return post(availableDriversRequest, "drivers/available");
     }
+    
+    public Response requestTrip(Trip trip) {
+        return post(trip, "trips/request");
+    }
 
     public Response updateDriver(Driver driver) {
         return post(driver, "drivers/update");

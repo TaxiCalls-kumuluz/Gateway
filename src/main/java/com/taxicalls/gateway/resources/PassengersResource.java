@@ -41,8 +41,10 @@ public class PassengersResource {
     public Response authenticatePassenger(Passenger passenger) {
         Response response = passengerService.authenticatePassenger(passenger);
         if (response.getStatus().equals(Status.NOT_FOUND)) {
+            LOGGER.log(Level.INFO, "creating passenger");
             return passengerService.createPassenger(passenger);
         }
+        LOGGER.log(Level.INFO, "passenger found");
         return response;
     }
 
@@ -54,6 +56,13 @@ public class PassengersResource {
         availableDriversRequest.setCoordinate(trip.getAddressFrom().getCoordinate());
         availableDriversRequest.setRatio(5);
         return tripService.getAvailableDrivers(availableDriversRequest);
+    }
+
+    @POST
+    @Path("/trips/request")
+    public Response requestTrip(Trip trip) {
+        LOGGER.log(Level.INFO, "requestTrip() invoked");
+        return tripService.requestTrip(trip);
     }
 
     @POST
@@ -71,6 +80,13 @@ public class PassengersResource {
         checkNotificationsRequest.setEntity(passenger.getClass().getSimpleName());
         checkNotificationsRequest.setId(passenger.getId());
         return notificationService.checkNotifications(checkNotificationsRequest);
+    }
+
+    @POST
+    @Path("/billings/card/update")
+    public Response updateCard(Passenger passenger) {
+        LOGGER.log(Level.INFO, "updateCard() invoked");
+        return Response.successful();
     }
 
 }

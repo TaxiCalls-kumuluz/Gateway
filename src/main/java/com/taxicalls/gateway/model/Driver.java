@@ -20,6 +20,8 @@ public class Driver implements Serializable {
     private Long atualLatitude;
     private Long atualLongitude;
     private Status status;
+    private String car;
+    private String account;
 
     public Long getId() {
         return id;
@@ -67,6 +69,18 @@ public class Driver implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getCar() {
+        return car;
+    }
+
+    public void setCar(String car) {
+        this.car = car;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     @Override
